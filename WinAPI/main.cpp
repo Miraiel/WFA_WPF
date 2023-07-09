@@ -1,11 +1,11 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include"resource.h"
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	//MessageBox(NULL, "Привет Мир! Я окно сообщения :-)", "Info", MB_YESNOCANCEL | MB_ICONINFORMATION);
+	//MessageBox(NULL, "РџСЂРёРІРµС‚ РњРёСЂ! РЇ РѕРєРЅРѕ СЃРѕРѕР±С‰РµРЅРёСЏ :-)", "Info", MB_YESNOCANCEL | MB_ICONINFORMATION);
 
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), NULL, DlgProc, NULL);
 
@@ -16,15 +16,15 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-		case WM_INITDIALOG: //Создаем элементы окна
+		case WM_INITDIALOG: //РЎРѕР·РґР°РµРј СЌР»РµРјРµРЅС‚С‹ РѕРєРЅР°
 		{
 			HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
-			SendMessage(hwnd, WM_SETICON, 0, (LPARAM)hIcon);	//иконка
+			SendMessage(hwnd, WM_SETICON, 0, (LPARAM)hIcon);	//РёРєРѕРЅРєР°
 
 			HWND hdlgItemLogin;
 			hdlgItemLogin = GetDlgItem(hwnd, IDC_EDIT1_LOGIN);
 			//SendMessage(hdlgItemLogin, WM_ENABLE, (WPARAM)(TRUE), 0);
-			SendMessage(hdlgItemLogin, WM_SETTEXT, 0, (LPARAM)("Введите имя пользователя"));
+			SendMessage(hdlgItemLogin, WM_SETTEXT, 0, (LPARAM)("Р’РІРµРґРёС‚Рµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ"));
 
 			HWND hdlgItemPass;
 			hdlgItemPass = GetDlgItem(hwnd, IDC_EDIT2_PASSWORD);
@@ -33,14 +33,9 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		}
 		break;
-		case WM_COMMAND:	//Обрабатываем команды
+		case WM_COMMAND:	//РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РєРѕРјР°РЅРґС‹
 			switch (LOWORD(wParam))
 			{
-				case IDC_EDIT1_LOGIN:
-				{
-					SendMessage(GetDlgItem(hwnd, IDC_EDIT1_LOGIN), EN_HSCROLL, , );
-				}
-				break;
 				case IDC_BUTTON1_COPY:
 				{
 					HWND hEditLogin = GetDlgItem(hwnd, IDC_EDIT1_LOGIN);
@@ -53,7 +48,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					SendMessage(GetDlgItem(hwnd, IDC_STATIC_LOGIN), WM_SETTEXT, 0, (LPARAM)sz_buffer);
 				}
 				break;
-				case IDOK: MessageBox(hwnd, "Была нажата кнопка ОК", "Info", MB_OK | MB_ICONINFORMATION); break;
+				case IDOK: MessageBox(hwnd, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° РћРљ", "Info", MB_OK | MB_ICONINFORMATION); break;
 				case IDCANCEL: EndDialog(hwnd, 0); break;
 			}
 			break;
