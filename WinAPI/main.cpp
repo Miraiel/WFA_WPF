@@ -34,6 +34,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 		case WM_COMMAND:	//Обрабатываем команды
+			
 			switch (LOWORD(wParam))
 			{
 				case IDC_BUTTON1_COPY:
@@ -50,6 +51,15 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 				case IDOK: MessageBox(hwnd, "Была нажата кнопка ОК", "Info", MB_OK | MB_ICONINFORMATION); break;
 				case IDCANCEL: EndDialog(hwnd, 0); break;
+			}
+
+			switch (HIWORD(wParam))
+			{
+				case EN_KILLFOCUS:
+				{
+
+				}
+				break;
 			}
 			break;
 			case WM_CLOSE: EndDialog(hwnd, 0);
