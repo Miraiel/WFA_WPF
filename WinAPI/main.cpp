@@ -4,9 +4,15 @@
 CONST CHAR g_sz_LOGIN_INVITE[] = "Введите имя пользователя";
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+/*
+	HWND - обработчик окта, для того чтобы обратиться к окну можно только через его обработчик(Handler)
+	UINT uMasg - сообщение 
+	WRAPAM/LPARAM - параметры сообщения, зависят от самого сообщнния (4 параметра)
+*/
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
+	//hInstans запущенной программы всегда можно получить при помощи функции GetModuleHandle(NULL)
 	//MessageBox(NULL, "Привет Мир! Я окно сообщения :-)", "Info", MB_YESNOCANCEL | MB_ICONINFORMATION);
 
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), NULL, DlgProc, NULL);
