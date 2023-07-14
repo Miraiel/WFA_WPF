@@ -3,7 +3,7 @@
 #include<cstdio>
 #include"resource.h"
 
-CONST CHAR* values[] = { TEXT("This"),"is","my","First","List","Box" };
+CONST CHAR* values[] = { "This","is","my","First","List","Box" };
 
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -21,6 +21,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_INITDIALOG:
 		{
+			
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 
 			for (int i = 0; i < ARRAYSIZE(values); i++)
@@ -34,17 +35,10 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_COMMAND:
 			switch (LOWORD(wParam))
 			{
-
-				case IDC_LIST1:
-				{
-
-				}break;
-
 				case IDOK:
 				{
 					
 				}break;
-
 			}
 		case WM_CLOSE: EndDialog(hwnd, 0);
 	}
