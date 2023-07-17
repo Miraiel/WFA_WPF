@@ -37,6 +37,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDC_BUTTON1_ADD:
 		{
 			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, DlgProcAdd, 0);
+			return 0;
 		}break;
 
 		case IDC_BUTTON_DELETE:
@@ -83,7 +84,10 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPAram)
 			//получаем родительское окно
 			HWND hParent = GetParent(hwnd);
 			HWND hList = GetDlgItem(hParent, IDC_LIST1);
-			InSendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+			if (SendMessage(hList, LB_FINDSTRING, 0, (LPARAM)sz_buffer) == LB_ERR)
+				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+			else
+				MessageBox(hwnd, "Такая запись уже сществует","Info", MB_OK|MB_ICONINFORMATION);
 
 		}break;
 		case IDCANCEL:
