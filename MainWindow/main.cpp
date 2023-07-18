@@ -1,69 +1,81 @@
+Ôªø#define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
+#include"resource.h"
+#include<cstdio>
 
-CONST CHAR g_sz_MY_WINDOW_CLASS[] = "MyWindow"; //Ó·˙ˇ‚ÎÂÌËÂ ËÏÂÌË ÍÎ‡ÒÒ‡
+CONST CHAR g_sz_MY_WINDOW_CLASS[] = "MyWindow"; //–æ–±—ä—è–≤–ª–µ–Ω–∏–µ –∏–º–µ–Ω–∏ –∫–ª–∞—Å—Å–∞
+
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, INT nCmdShow)
 {
-	//1 –Â„ËÒÚ‡ˆËˇ ÍÎ‡ÒÒ‡ ÓÍÌ‡
+	//1 –†–µ–≥–∏—Å—Ç—Ä–∞—Ü–∏—è –∫–ª–∞—Å—Å–∞ –æ–∫–Ω–∞
 
-	WNDCLASSEX wc;					//Ó·˙ˇ‚ÎˇÂÏ
-	ZeroMemory(&wc, sizeof(wc));	//Á‡ÌÛÎˇÂÏ
+	WNDCLASSEX wc;					//–æ–±—ä—è–≤–ª—è–µ–º
+	ZeroMemory(&wc, sizeof(wc));	//–∑–∞–Ω—É–ª—è–µ–º
 
-	wc.cbSize = sizeof(wc);	//cb - Count Bytes ‡ÁÏÂ ÍÎ‡ÒÒ‡ ‚ ·‡ÈÚ‡ı
-	wc.cbClsExtra = 0;		//Class ExtraBytes ‰ÓÔÓÎÌËÚÂÎ¸Ì˚Â ·‡ÈÚ˚ ÍÎ‡ÒÒ‡
-	wc.cbWndExtra = 0;		//WindowExtraBytes ‰ÓÔÓÎÌËÚÂÎ¸Ì˚Â ·‡ÈÚ˚ ÓÍÌ‡
+	wc.cbSize = sizeof(wc);	//cb - Count Bytes —Ä–∞–∑–º–µ—Ä –∫–ª–∞—Å—Å–∞ –≤ –±–∞–π—Ç–∞—Ö
+	wc.cbClsExtra = 0;		//Class ExtraBytes –¥–æ–ø–æ–ª–Ω–∏—Ç–µ–ª—å–Ω—ã–µ –±–∞–π—Ç—ã –∫–ª–∞—Å—Å–∞
+	wc.cbWndExtra = 0;		//WindowExtraBytes –¥–æ–ø–æ–ª–Ω–∏—Ç–µ–ª—å–Ω—ã–µ –±–∞–π—Ç—ã –æ–∫–Ω–∞
 	wc.style = 0;
 
-	//Ì‡ÒÚÓÈÍ‡ ‚ÌÂ¯ÌÂ„Ó ‚Ë‰‡ ÓÍÌ‡, ËÍÓÌÍË ÍÛÒÓ˚ Ë Ú.‰.
+	//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ –≤–Ω–µ—à–Ω–µ–≥–æ –≤–∏–¥–∞ –æ–∫–Ω–∞, –∏–∫–æ–Ω–∫–∏ –∫—É—Ä—Å–æ—Ä—ã –∏ —Ç.–¥.
 
-	wc.hIcon = LoadIcon(hInstanse, IDI_APPLICATION);
-	wc.hIconSm = LoadIcon(hInstanse, IDI_APPLICATION);
-	wc.hCursor = LoadIcon(hInstanse, IDC_ARROW);
+	//wc.hIcon = LoadIcon(hInstanse, MAKEINTRESOURCE(IDI_ICON_VAMP));		//–æ—Ç–æ–±—Ä–∞–∂–∞–µ—Ç—Å—è –≤ –ø–∞–Ω–µ–ª–∏ –∑–∞–¥–∞—á
+	//wc.hIconSm = LoadIcon(hInstanse, MAKEINTRESOURCE(IDI_ICON_MOON));	//–æ—Ç–æ–±—Ä–∞–∂–∞–µ—Ç—Å—è –≤ –∑–∞–≥–æ–ª–æ–≤–∫–µ –æ–∫–Ω–∞
+	wc.hIcon = (HICON)LoadImage(hInstanse, "Moon.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	wc.hIcon = (HICON)LoadImage(hInstanse, "Vamp.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+
+	wc.hCursor = (HCURSOR)LoadImage(hInstanse, "Busy.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+
+	//wc.hCursor = LoadIcon(hInstanse, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 
 	wc.hInstance = hInstanse;
-	wc.lpfnWndProc = (WNDPROC)WndProc;					//ÔÓˆÂ‰Û‡ ÓÍÌ‡
+	wc.lpfnWndProc = (WNDPROC)WndProc;					//–ø—Ä–æ—Ü–µ–¥—É—Ä–∞ –æ–∫–Ω–∞
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = g_sz_MY_WINDOW_CLASS; // lpsz - long pointer size zero , ÂÒÎË ÌÂ Á‡‰‡Ú¸ ÍÎ‡ÒÒ ·Û‰ÂÚ ÌÂ Á‡Â„ËÒÚËÓ‚‡Ì 
+	wc.lpszClassName = g_sz_MY_WINDOW_CLASS; // lpsz - long pointer size zero , –µ—Å–ª–∏ –Ω–µ –∑–∞–¥–∞—Ç—å –∫–ª–∞—Å—Å –±—É–¥–µ—Ç –Ω–µ –∑–∞—Ä–µ–≥–∏—Å—Ç—Ä–∏—Ä–æ–≤–∞–Ω 
 
-	//Â„ËÒÚ‡ˆËˇ
+	//—Ä–µ–≥–∏—Å—Ç—Ä–∞—Ü–∏—è
 
 	if (!RegisterClassEx(&wc))
 	{
-		MessageBox(NULL, " Î‡ÒÒ ÌÂ Á‡Â„ËÒÚËÓ‚‡Ì", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, "–ö–ª–∞—Å—Å –Ω–µ –∑–∞—Ä–µ–≥–∏—Å—Ç—Ä–∏—Ä–æ–≤–∞–Ω", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
-	//2 —ÓÁ‰‡ÌËÂ ÓÍÌ‡
+	//2 –°–æ–∑–¥–∞–Ω–∏–µ –æ–∫–Ω–∞	
 
 	HWND hwnd = CreateWindowEx
 	(
 		0,
-		g_sz_MY_WINDOW_CLASS,	//ËÏˇ ÍÎ‡ÒÒ‡ ÓÍÌ‡
-		g_sz_MY_WINDOW_CLASS,	//Á‡„ÓÎÓ‚ÓÍ ÓÍÌ‡
-		WS_OVERLAPPEDWINDOW,		//ÒÚËÎ¸ ‰Îˇ „Î‡‚ÌÓ„Ó ÓÍÌ‡ ÔÓ„‡ÏÏ˚ ‚ÒÂ„‰‡ ËÏÂÌÌÓ Ú‡ÍÓÈ - (TPO_LEVEL_WINDOW)	
-		CW_USEDEFAULT, CW_USEDEFAULT,	//ÍÓÓ‰ËÌ‡Ú˚
-		CW_USEDEFAULT, CW_USEDEFAULT,	//¯ËËÌ‡, ‚˚ÒÓÚ‡
+		g_sz_MY_WINDOW_CLASS,	//–∏–º—è –∫–ª–∞—Å—Å–∞ –æ–∫–Ω–∞
+		g_sz_MY_WINDOW_CLASS,	//–∑–∞–≥–æ–ª–æ–≤–æ–∫ –æ–∫–Ω–∞
+		WS_OVERLAPPEDWINDOW,		//—Å—Ç–∏–ª—å –¥–ª—è –≥–ª–∞–≤–Ω–æ–≥–æ –æ–∫–Ω–∞ –ø—Ä–æ–≥—Ä–∞–º–º—ã –≤—Å–µ–≥–¥–∞ –∏–º–µ–Ω–Ω–æ —Ç–∞–∫–æ–π - (TPO_LEVEL_WINDOW)	
+		CW_USEDEFAULT, CW_USEDEFAULT,	//–∫–æ–æ—Ä–¥–∏–Ω–∞—Ç—ã
+		CW_USEDEFAULT, CW_USEDEFAULT,	//—à–∏—Ä–∏–Ω–∞, –≤—ã—Å–æ—Ç–∞
 		NULL,	//Perent Window
-		NULL,	//ƒÎˇ „Î‡‚ÌÓ„Ó ÓÍÌ‡ ˝ÚÓ ÏÂÌ˛, ‰Îˇ ‰Ó˜ÂÌÂ„Ó ÓÍÌ‡ ˝ÚÓ ID Â„Ó ÂÒÛÒ‡
+		NULL,	//–î–ª—è –≥–ª–∞–≤–Ω–æ–≥–æ –æ–∫–Ω–∞ —ç—Ç–æ –º–µ–Ω—é, –¥–ª—è –¥–æ—á–µ—Ä–Ω–µ–≥–æ –æ–∫–Ω–∞ —ç—Ç–æ ID –µ–≥–æ —Ä–µ—Å—É—Ä—Å–∞
 		hInstanse,
 		NULL
 	);
 
 	if (hwnd == 0)
 	{
-		MessageBox(NULL, "ŒÍÌÓ ÌÂ·˚Î ÒÓÁ‰‡ÌÓ", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, "–û–∫–Ω–æ –Ω–µ–±—ã–ª —Å–æ–∑–¥–∞–Ω–æ", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
-	//3 «‡ÔÛÒÍ ˆËÍÎ‡ ÒÓÓ·˘ÂÌËÈ
+	ShowWindow(hwnd, nCmdShow);		//–∑–∞–¥–∞–µ—Ç —Ä–µ–∂–∏–º –æ—Ç–æ–±—Ä–∞–∂–µ–Ω–∏—è –æ–∫–Ω–∞
+	UpdateWindow(hwnd);				//–≤—ã–ø–æ–ª–Ω—è–µ—Ç –ø—Ä–æ—Ä–∏—Å–æ–≤–∫—É –æ–∫–Ω–∞
+
+	//3 –ó–∞–ø—É—Å–∫ —Ü–∏–∫–ª–∞ —Å–æ–æ–±—â–µ–Ω–∏–π
 
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0) > 0)
+	while (GetMessage(&msg, 0, 0, 0) > 0)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		TranslateMessage(&msg);		//—Ç—Ä–∞–Ω—Å–ª–∏—Ä—É–µ—Ç —Å–æ–æ–±—â–µ–Ω–∏—è –≤–∏—Ä—Ç—É–∞—å–Ω—ã—Ö –∫–ª–∞–≤–∏—à –≤ —Å–∏–º–≤–æ–ª—å–Ω—ã–µ —Å–æ–æ–±—â–µ–Ω–∏—è
+		DispatchMessage(&msg);		//–û—Ç–ø—Ä–∞–≤–ª—è–µ—Ç —Å–æ–æ–±—â–µ–Ω–∏—è –ø—Ä–æ—Ü–µ–¥—É—Ä–µ –æ–∫–Ω–∞, —Å–æ–æ–±—â–µ–Ω–∏–µ –±–µ—Ä–µ—Ç –æ—Ç GetMessage();
 	}
 
 	return msg.wParam;
@@ -79,10 +91,27 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		break;
 
+	case WM_SIZE:
+	case WM_MOVE:
+	{
+		CONST INT SIZE = 256;
+		CHAR sz_msg[SIZE] = {};
+
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+
+		int window_width = rect.right - rect.left;
+		int window_height = rect.bottom - rect.top;
+		sprintf(sz_msg, "%s - Size: %i%i, Position: %i%i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_msg);
+	}break;
+
 	case WM_DESTROY: PostQuitMessage(0);
 		break;
 
-	case WM_CLOSE: DestroyWindow(hwnd); break;
+	case WM_CLOSE:
+		if (MessageBox(hwnd, "–í–´ –¥–µ–π—Å—Ç–≤–∏—Ç–µ–ª—å–Ω–æ —Ö–æ—Ç–∏—Ç–µ –∑–∞–∫—Ä—ã—Ç—å –æ–∫–Ω–æ?", "Question", MB_YESNO | MB_ICONQUESTION) == IDYES)
+			DestroyWindow(hwnd); break;
 	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 	return 0;

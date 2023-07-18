@@ -31,6 +31,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}break;
 
 	case WM_COMMAND:
+	{
 		switch (LOWORD(wParam))
 		{
 
@@ -41,11 +42,11 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}break;
 
 		case IDC_BUTTON_DELETE:
-
+		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
-			SendMessage(hList, LB_GETTEXT, SendMessage(hList, LB_GETTEXT, 0, 0),0);
+			SendMessage(hList, LB_GETTEXT, SendMessage(hList, LB_GETTEXT, 0, 0), 0);
 			break;
-
+		}
 		case IDOK:
 		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
@@ -58,9 +59,10 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MessageBox(hwnd, sz_massege, "Info", MB_OK | MB_ICONINFORMATION);
 		}break;
 
-
 		case IDCANCEL: EndDialog(hwnd, 0); break;
-		}break;
+		}
+	}
+	break;
 	case WM_CLOSE:EndDialog(hwnd, 0);
 	}
 	return FALSE;
@@ -71,6 +73,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPAram)
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
+		SendMessage(GetDlgItem(hwnd, IDC_EDIT_ADD), WM_SETFOCUS,(LPARAM)GetDlgItem(hwnd, IDOK), 0);
 		break;
 
 	case WM_COMMAND:
@@ -79,6 +82,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPAram)
 		case IDOK:
 			const INT SIZE = 256;
 			CHAR sz_buffer[SIZE] = {};
+			if (SendMessage(GetDlgItem(hwnd, IDC_EDIT_ADD), WM_GETTEXTLENGTH, 0, 0) == 0)break;
 			SendMessage(GetDlgItem(hwnd, IDC_EDIT_ADD), WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 
 			//получаем родительское окно
