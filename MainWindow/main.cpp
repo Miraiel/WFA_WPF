@@ -26,9 +26,9 @@ INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 	wc.hIcon = (HICON)LoadImage(hInstanse, "Moon.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 	wc.hIcon = (HICON)LoadImage(hInstanse, "Vamp.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 
-	wc.hCursor = (HCURSOR)LoadImage(hInstanse, "Busy.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	//wc.hCursor = (HCURSOR)LoadImage(hInstanse, "Busy.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 
-	//wc.hCursor = LoadIcon(hInstanse, IDC_ARROW);
+	wc.hCursor = LoadIcon(hInstanse, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 
 	wc.hInstance = hInstanse;
@@ -45,6 +45,14 @@ INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 	}
 
 	//2 Создание окна	
+
+	//int screen_width = GetSystemMetrics(SM_CXSCREEN);	
+	//int screen_height = GetSystemMetrics(SM_CYSCREEN);
+	//int window_width = screen_width * .75;
+	//int window_heigth = screen_height * .75;
+	//int start_x = screen_width * .125;
+	//int stzrt_y = screen_height * .125;
+
 
 	HWND hwnd = CreateWindowEx
 	(
@@ -102,7 +110,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		int window_width = rect.right - rect.left;
 		int window_height = rect.bottom - rect.top;
-		sprintf(sz_msg, "%s - Size: %i%i, Position: %i%i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
+		sprintf(sz_msg, "%s - Size: %i %i, Position: %i %i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
 		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_msg);
 	}break;
 
@@ -110,7 +118,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CLOSE:
-		if (MessageBox(hwnd, "ВЫ действительно хотите закрыть окно?", "Question", MB_YESNO | MB_ICONQUESTION) == IDYES)
+		if (MessageBox(hwnd, "Вы действительно хотите закрыть окно?", "Question", MB_YESNO | MB_ICONQUESTION) == IDYES)
 			DestroyWindow(hwnd); break;
 	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
