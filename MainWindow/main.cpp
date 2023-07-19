@@ -46,14 +46,6 @@ INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 
 	//2 Создание окна	
 
-	//int screen_width = GetSystemMetrics(SM_CXSCREEN);	
-	//int screen_height = GetSystemMetrics(SM_CYSCREEN);
-	//int window_width = screen_width * .75;
-	//int window_heigth = screen_height * .75;
-	//int start_x = screen_width * .125;
-	//int stzrt_y = screen_height * .125;
-
-
 	HWND hwnd = CreateWindowEx
 	(
 		0,
