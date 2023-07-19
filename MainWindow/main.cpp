@@ -49,13 +49,13 @@ INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 	HWND hwnd = CreateWindowEx
 	(
 		0,
-		g_sz_MY_WINDOW_CLASS,	//имя класса окна
-		g_sz_MY_WINDOW_CLASS,	//заголовок окна
-		WS_OVERLAPPEDWINDOW,		//стиль для главного окна программы всегда именно такой - (TPO_LEVEL_WINDOW)	
-		CW_USEDEFAULT, CW_USEDEFAULT,	//координаты
-		CW_USEDEFAULT, CW_USEDEFAULT,	//ширина, высота
-		NULL,	//Perent Window
-		NULL,	//Для главного окна это меню, для дочернего окна это ID его ресурса
+		g_sz_MY_WINDOW_CLASS,			//имя класса окна
+		g_sz_MY_WINDOW_CLASS,			//заголовок окна
+		WS_OVERLAPPEDWINDOW,			//стиль для главного окна программы всегда именно такой - (TPO_LEVEL_WINDOW)	
+		start_x, start_y,				//координаты
+		window_width, window_heigth,	//ширина, высота
+		NULL,							//Perent Window
+		NULL,							//Для главного окна это меню, для дочернего окна это ID его ресурса
 		hInstanse,
 		NULL
 	);
@@ -100,8 +100,8 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		RECT rect;
 		GetWindowRect(hwnd, &rect);
 
-		int window_width = rect.right - rect.left;
-		int window_height = rect.bottom - rect.top;
+		INT window_width = rect.right - rect.left;
+		INT window_height = rect.bottom - rect.top;
 		sprintf(sz_msg, "%s - Size: %i %i, Position: %i %i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
 		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_msg);
 	}break;
