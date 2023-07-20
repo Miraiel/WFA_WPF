@@ -5,6 +5,14 @@
 
 CONST CHAR g_sz_MY_WINDOW_CLASS[] = "MyWindow"; //объявление имени класса
 
+CONST INT g_i_BTN_SIZE = 50;		//размер кнопки
+CONST INT g_i_DISTANCE = 10;		//размер между кнопками
+CONST INT g_i_START_X = 10;			//отступ от начала окна по х
+CONST INT g_i_START_Y = 10;			//отступ от начала окна по у
+CONST INT g_i_SCREEN_HEIGHT = 25;
+CONST INT g_i_DISPLAY_WIDTH = (g_i_BTN_SIZE + g_i_DISTANCE) * 5;
+CONST INT g_i_DISPLAY_HEIGHT = 18;
+
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, INT nCmdShow)
@@ -86,7 +94,29 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_CREATE:
-		break;
+	{
+		HWND hEdit = CreateWindowEx(0, "Edit", "0", WS_CHILD | WS_VISIBLE | ES_RIGHT | WS_BORDER,
+									g_i_START_X, g_i_START_Y,
+									g_i_DISPLAY_WIDTH, g_i_DISPLAY_HEIGHT,
+									hwnd, (HMENU)IDC_EDIT, GetModuleHandle(NULL), NULL);
+		CHAR sz_btn_name[] = "0";
+		INT number = 0;
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				sz_btn_name[0] = number + 49;
+				CreateWindowEx(NULL, "Button", sz_btn_name, WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+					g_i_START_X + (g_i_BTN_SIZE + g_i_DISTANCE) * j,
+					g_i_START_Y + g_i_SCREEN_HEIGHT + g_i_DISTANCE + (g_i_BTN_SIZE + g_i_DISTANCE) * (2 - i),
+					g_i_BTN_SIZE, g_i_BTN_SIZE,
+					hwnd,
+					(HMENU)(number + 1000),
+					GetModuleHandle(NULL), NULL);
+				number++;
+			}
+		}
+	}break;
 
 	case WM_COMMAND:
 		break;
@@ -102,7 +132,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		INT window_width = rect.right - rect.left;
 		INT window_height = rect.bottom - rect.top;
-		sprintf(sz_msg, "%s - Size: %i %i, Position: %i %i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
+		sprintf(sz_msg, "%s - Size: %i %i, Posi+63tion: %i %i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
 		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_msg);
 	}break;
 
