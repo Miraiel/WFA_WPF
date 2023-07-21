@@ -60,7 +60,12 @@ INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 	}
 
 	//2 Создание окна	
-
+	int screen_width = GetSystemMetrics(SM_CXSCREEN);	
+	int screen_height = GetSystemMetrics(SM_CYSCREEN);
+	int window_width = screen_width * .75;
+	int window_heigth = screen_height * .75;
+	int start_x = screen_width * .125;
+	int start_y = screen_height * .125;
 	HWND hwnd = CreateWindowEx
 	(
 		0,
@@ -219,7 +224,43 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
 		}
 
+		if (LOWORD(wParam) == IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
+		{
+			SendMessage(hwnd, WM_COMMAND, LPARAM(IDC_BUTTON_EQUAL), 0);
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			a = strtod(sz_buffer, NULL);
+			z = LOWORD(wParam);
+			stored = TRUE;
+		}
+
+		if (LOWORD(wParam) == IDC_BUTTON_EQUAL)
+		{
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			b = strtod(sz_buffer, NULL);
+			switch (z)
+			{
+			case IDC_BUTTON_PLUS:a += b; break;
+			case IDC_BUTTON_MINUS:a -= b; break;
+			case IDC_BUTTON_ASTER:a *= b; break;
+			case IDC_BUTTON_SLASH:a /= b; break;
+			default:a = b; break;
+			}
+			sprintf(sz_buffer, "%f", a);
+			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			stored = TRUE;
+		}
+
 	}break;
+
+	case WM_KEYDOWN:
+	{
+		if (LOWORD(wParam) >= '0' && LOWORD(wParam) <= '9')SendMessage(hwnd, WM_COMMAND, LOWORD(wParam) + 1000 - '0', 0);
+		switch (LOWORD(wParam)) 
+		{
+		case VK_OEM_PERIOD:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_POINT, 0); break;
+		case VK_ESCAPE: SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_CLEAR, 0); break;
+		}
+	}
 
 	case WM_SIZE:
 	case WM_MOVE:
@@ -232,17 +273,17 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		INT window_width = rect.right - rect.left;
 		INT window_height = rect.bottom - rect.top;
-		sprintf(sz_msg, "%s - Size: %i %i, Posi+63tion: %i %i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
+		sprintf(sz_msg, "%s - Size: %i %i, Position: %i %i", g_sz_MY_WINDOW_CLASS, window_width, window_height, rect.left, rect.top);
 		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_msg);
 	}break;
 
-	case WM_DESTROY: PostQuitMessage(0);
-		break;
+	case WM_DESTROY:
+		PostQuitMessage(NULL); break;
+		default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
 
 	case WM_CLOSE:
 		if (MessageBox(hwnd, "Вы действительно хотите закрыть окно?", "Question", MB_YESNO | MB_ICONQUESTION) == IDYES)
 			DestroyWindow(hwnd); break;
-	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
-	return 0;
+	return FALSE;
 }
