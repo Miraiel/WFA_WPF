@@ -205,12 +205,6 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9)
 		{
 			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);			
-			//if (stored == TRUE)
-			//{
-			//	SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
-			//	for (int i = 0; i < SIZE; i++)sz_buffer[i] = 0;
-			//	stored = FALSE;
-			//}
 			while (sz_buffer[0] == '0')
 			{
 				for (int i = 0; i < sz_buffer[i]; i++)
@@ -236,58 +230,36 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			stored = false;
 		}
 
-		if (LOWORD(wParam) == IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
-		{
-			SendMessage(hwnd, WM_COMMAND, LPARAM(IDC_BUTTON_EQUAL), 0);
-			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-			a = strtod(sz_buffer, NULL);
-			z = LOWORD(wParam);
-			stored = TRUE;
+		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH) {
+			if (a == 0) {
+				SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+				a = strtod(sz_buffer, NULL);
+
+			}
+			switch (LOWORD(wParam))
+			{
+			case IDC_BUTTON_PLUS:operation = '+'; break;
+			case IDC_BUTTON_MINUS:operation = '-'; break;
+			case IDC_BUTTON_SLASH:operation = '/'; break;
+			case IDC_BUTTON_ASTER:operation = '*'; break;
+			}
+			stored = true;
 		}
-
-		//if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam)<=IDC_BUTTON_EQUAL)
-		//{
-		//	
-		//	switch (LOWORD(wParam))
-		//	{
-		//	stored = true;
-		//	SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-		//	b = strtod(sz_buffer, NULL);
-		//	if (a == 0)
-		//	{
-		//		a = b;
-		//	}break;
-		//
-		//	//stored = false;
-		//	SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-		//	b = strtod(sz_buffer, NULL);
-		//	case IDC_BUTTON_PLUS:  a += b; break;
-		//	case IDC_BUTTON_MINUS: a -= b; break;
-		//	case IDC_BUTTON_ASTER: a *= b; break;
-		//	case IDC_BUTTON_SLASH: a /= b; break;
-		//	//default:a = b; break;
-		//	sprintf(sz_buffer, "%g", a);
-		//	SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-		//	}
-		//}
-
-		//if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
-		//{
-		//	stored = true;
-		//	SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-		//	b = strtod(sz_buffer, NULL);
-		//	SendMessage(hEdit, WM_COMMAND, IDC_BUTTON_EQUAL, 0);
-		//	if (a == 0)a = b; //break;
-		//
-		//	switch (LOWORD(wParam))
-		//	{
-		//	case IDC_BUTTON_PLUS: operation = '+';break;
-		//	case IDC_BUTTON_MINUS: operation = '-';break;
-		//	case IDC_BUTTON_ASTER: operation = '*';break;
-		//	case IDC_BUTTON_SLASH: operation = '/';break;
-		//	}
-		//	stored = true;
-		//}
+		if (LOWORD(wParam) == IDC_BUTTON_EQUAL) {
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			b = strtod(sz_buffer, NULL);
+			switch (operation)
+			{
+			case '+': a += b; break;
+			case '-': a -= b; break;
+			case '*': a *= b; break;
+			case '/': a /= b; break;
+			}
+			operation = '0';
+			stored = false;
+			sprintf(sz_buffer, "%g", a);
+			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+		}
 
 	}break;
 
