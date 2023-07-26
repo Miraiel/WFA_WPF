@@ -16,7 +16,7 @@ CONST INT g_i_DISPLAY_HEIGHT = 18;
 static DOUBLE a = 0;
 static DOUBLE b = 0;
 static char old_operation = 0;
-static char operation_changet = 0;
+static char operation_input = false;
 static char operation = 0;
 static BOOL complete = false;
 static BOOL stored = false;
@@ -246,7 +246,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (a == 0)a = b;
 			stored = true;
 			complete = false;
-			if (operation != old_operation && operation_changet)
+			if (/*operation != old_operation && */operation_input)
 			{
 				SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_EQUAL, 0);
 			}
@@ -257,7 +257,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			case IDC_BUTTON_SLASH:operation = '/'; break;
 			case IDC_BUTTON_ASTER:operation = '*'; break;
 			}
-			operation_changet = true;
+			operation_input = true;
 		}
 		if (LOWORD(wParam) == IDC_BUTTON_EQUAL)
 		{
@@ -272,7 +272,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			case '/': a /= b; break;
 			}
 			//old_operation = operation;
-			operation_changet = false;
+			operation_input = false;
 			sprintf(sz_buffer, "%g", a);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
@@ -281,19 +281,31 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 	{
-		if (LOWORD(wParam) >= '0' && LOWORD(wParam) <= '9')
-			SendMessage(hwnd, WM_COMMAND, LOWORD(wParam) - '0' + 1000, 0);
-		//if (LOWORD(wParam) >= 0x60 && LOWORD(wParam) <= 0x69 && VK_HOME == true)
-		//	SendMessage(hwnd, WM_COMMAND, LOWORD(wParam) - '0' + 1000, 0);
+		//char symbol[2]{};
+		//symbol[0] = LOWORD(wParam);
+		//MessageBox(hwnd, symbol, "Symbol", MB_OK);
+		
+		if (GetKeyState(VK_LSHIFT) < 0)
+		{
+			if (wParam == 0x38)SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_ASTER, 0);
+		}
+		else 
+		{
+			if (LOWORD(wParam) >= '0' && LOWORD(wParam) <= '9')
+				SendMessage(hwnd, WM_COMMAND, LOWORD(wParam) - '0' + 1000, 0);
+		}
+
+			if (LOWORD(wParam) >= 0x60 && LOWORD(wParam) <= 0x69)
+				SendMessage(hwnd, WM_COMMAND, LOWORD(wParam) - 0x60 + 1000, 0);
 
 		switch (LOWORD(wParam))
 		{
-		case VK_OEM_PLUS:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_PLUS, 0); break;
-		case VK_OEM_MINUS:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_MINUS, 0); break;
-		case VK_MULTIPLY:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_ASTER, 0); break;
-		case VK_DIVIDE:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_SLASH, 0); break;
-		case VK_RETURN:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_EQUAL, 0); break;
-		case VK_ESCAPE: SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_CLEAR, 0); break;
+		case VK_ADD:		case VK_OEM_PLUS:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_PLUS, 0); break;
+		case VK_SUBTRACT:	case VK_OEM_MINUS:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_MINUS, 0); break;
+		case VK_MULTIPLY:	SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_ASTER, 0); break;
+		case VK_OEM_2:		case VK_DIVIDE:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_SLASH, 0); break;
+		case VK_RETURN:		SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_EQUAL, 0); break;
+		case VK_ESCAPE:		SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_CLEAR, 0); break;
 		}
 
 		if (wParam == VK_OEM_PERIOD)SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_POINT, 0);
