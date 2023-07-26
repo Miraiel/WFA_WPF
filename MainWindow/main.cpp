@@ -108,6 +108,7 @@ INT WINAPI WinMain(HINSTANCE hInstanse, HINSTANCE hPrevInst, LPSTR lpCmsLine, IN
 
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	
 	switch (uMsg)
 	{
 	case WM_CREATE:
@@ -133,7 +134,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				number++;
 			}
 		}
-
+		
 		CreateWindowEx(NULL, "Button", "0", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 			g_i_START_X,
 			g_i_START_Y + g_i_SCREEN_HEIGHT + (g_i_BTN_SIZE + g_i_DISTANCE) * 3 + g_i_DISTANCE,
@@ -199,6 +200,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 	{
+		SetFocus(hwnd);
 		CONST INT SIZE = 256;
 		CHAR sz_buffer[SIZE] = {};
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
@@ -297,7 +299,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (LOWORD(wParam) >= 0x60 && LOWORD(wParam) <= 0x69)
 				SendMessage(hwnd, WM_COMMAND, LOWORD(wParam) - 0x60 + 1000, 0);
-
+			
 		switch (LOWORD(wParam))
 		{
 		case VK_ADD:		case VK_OEM_PLUS:SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_PLUS, 0); break;
@@ -308,7 +310,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case VK_ESCAPE:		SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_CLEAR, 0); break;
 		}
 
-		if (wParam == VK_OEM_PERIOD)SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_POINT, 0);
+		if (wParam == VK_OEM_PERIOD|| wParam == VK_DECIMAL)SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_POINT, 0);
 	}
 
 	case WM_SIZE:
